@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean as Hale Service Calculator</title>
+    <style>
+        body { background-color: #0077cc; font-family: Arial, sans-serif; color: white; text-align: center; padding: 0; margin: 0; }
+        .calculator-frame { background-color: white; color: #0077cc; max-width: 400px; margin: 20px auto; padding: 20px; border-radius: 8px; }
+        .calculator-frame h1 { font-size: 24px; }
+        .calculator-frame label { font-size: 16px; margin-top: 10px; display: block; text-align: left; }
+        .calculator-frame input, .calculator-frame select, .calculator-frame button { font-size: 16px; width: 100%; margin-top: 5px; padding: 8px; border-radius: 4px; }
+        .result-label { font-size: 18px; color: #0077cc; margin-top: 20px; text-align: left; }
+    </style>
+</head>
+<body>
+
+<div class="calculator-frame">
+    <h1>Clean as Hale Service Calculator</h1>
+
+    <!-- Base Price Input -->
+    <label for="base-price">Base Price ($):</label>
+    <input type="number" id="base-price" value="0" min="0">
+
+    <!-- Job Type Selection -->
+    <label for="job-type">Please Select Job Type:</label>
+    <select id="job-type">
+        <option value="Windows">Windows</option>
+        <option value="Siding">Siding</option>
+        <option value="Sidewalk">Sidewalk</option>
+        <option value="Lawn">Lawn</option>
+    </select>
+
+    <!-- Square Footage Input -->
+    <label for="sq-ft">Square Footage:</label>
+    <input type="number" id="sq-ft" value="0" min="0">
+
+    <!-- Windows Input (always visible) -->
+    <label for="windows-count">Number of Windows:</label>
+    <input type="number" id="windows-count" value="0" min="0">
+
+    <!-- Hours Input -->
+    <label for="hours-worked">Hours Worked:</label>
+    <input type="number" id="hours-worked" value="0" min="0">
+
+    <!-- Calculate Button -->
+    <button onclick="calculateTotal()">Calculate Total</button>
+
+    <!-- Result Label -->
+    <div id="result-label" class="result-label">Total Cost: $0.00</div>
+</div>
+
+<script>
+    const PRICE_PER_SQ_FT_SIDING = 0.45;
+    const PRICE_PER_SQ_FT_SIDEWALK = 0.60;
+    const PRICE_PER_WINDOW = 5.00;
+    const PRICE_PER_HOUR_LAWN = 20.00;
+
+    function calculateTotal() {
+        let basePrice = parseFloat(document.getElementById("base-price").value) || 0;
+        let totalCost = basePrice;
+
+        const jobType = document.getElementById("job-type").value;
+        const windowsCount = parseInt(document.getElementById("windows-count").value) || 0;
+        totalCost += windowsCount * PRICE_PER_WINDOW;
+
+        if (jobType === "Siding") {
+            const sqFt = parseFloat(document.getElementById("sq-ft").value) || 0;
+            totalCost += sqFt * PRICE_PER_SQ_FT_SIDING;
+        } else if (jobType === "Sidewalk") {
+            const sqFt = parseFloat(document.getElementById("sq-ft").value) || 0;
+            totalCost += sqFt * PRICE_PER_SQ_FT_SIDEWALK;
+        } else if (jobType === "Lawn") {
+            const hoursWorked = parseFloat(document.getElementById("hours-worked").value) || 0;
+            totalCost += hoursWorked * PRICE_PER_HOUR_LAWN;
+        }
+
+        document.getElementById("result-label").innerHTML = `Total Cost: $${totalCost.toFixed(2)}`;
+    }
+</script>
+
+</body>
+</html>
